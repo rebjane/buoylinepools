@@ -74,4 +74,7 @@ export default {
     margin: 10px;
     padding: 20px;
 }
+.wave {
+    z-index: 2;
+}
 </style>

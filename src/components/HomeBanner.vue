@@ -1,17 +1,19 @@
 <template>
   <div class="homebanner">
-      <div class="slider">
-        <div :class="`slide ${pos(i)}`" v-for="(item, i) in data.items" :key="i">
-            <div class="overlay"/>
-            <div class="banner" :style="`background-image: url(${src})`">
-                <div class="text">
-                    <h1 v-if="item.title"><p v-if="item.pretitle">{{$text(item.pretitle)}}</p> {{$text(item.title)}}</h1>
+      <div class="slider">    
+        <transition appear v-for="(item, i) in data.items" :key="i">
+            <div class="slide" :style="`transform: translateX(-${active * 100}vw)`">
+                <div class="banner" :style="`background-image: url(${item.image.url}); transform: translateX(${i * 100}vw)`">
+                    <div class="text">
+                        <h1 v-if="item.title"><p v-if="item.pretitle">{{$text(item.pretitle)}}</p> {{$text(item.title)}}</h1>
+                    </div>
+                    <div class="overlay"/>
                 </div>
             </div>
-        </div>
+        </transition>
         <div class="pagination">
             <div v-for="(item, i) in data.items" :key="i">
-                <div class="dot" @click="handlePag(i)"></div>
+                <div :class="`dot ${active === i ? `active` : ``}`" @click="active = i"></div>
             </div>
         </div>
     </div>
@@ -28,25 +30,11 @@ export default {
 
   },
   methods: {
-      pos(num) {
-          if (this.curr === num) {
-              return "current"
-          } else {
-              return "nocurrent"
-          }
-      },
-      handlePag(num) {
-          this.prev = this.curr;
-          this.curr = num;
-          this.pos(num);
-      }
+     
   },
   data() {
       return {
-         src: 'http://buoylinepools.ca/images/content_right_home1.png',
-         ww: window.innerWidth,
-         curr: 0,
-         prev: null
+        active: 0
       }
   }
 }
@@ -55,22 +43,24 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .overlay {
-    background: rgb(34,38,108);
-    background: linear-gradient(90deg, rgba(34,38,108,0.7469362745098039) 39%, rgba(34,38,108,0) 100%);
+    background: rgb(17, 19, 53);
+    background: linear-gradient(90deg, rgba(17, 19, 53,0.7469362745098039) 39%, rgba(17, 19, 53,0) 100%);
     height: 100%;
     width:100%;
     position: absolute;
-    z-index: 0;
+    z-index: 1;
 }
 .banner {
     width: 100vw;
     height: 100vh;
     background-repeat: no-repeat;
     background-size: cover;
+    
 }
 .homebanner {
     width: 100vw;
     height: 100vh;
+    
 }
 img {
     width: 100vw;
@@ -110,8 +100,13 @@ p {
   background-color: white;
   border-radius: 50%;
   margin: 10px;
+  cursor: pointer;
 }
-.nocurrent {
-    right: 100vw;
+
+.slide {
+    transition: transform 1s ease;
+}
+.active {
+    background-color: lightblue;
 }
 </style>
