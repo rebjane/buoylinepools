@@ -34,9 +34,8 @@ export default {
          setInterval(() => {
             this.prev = this.count;
              this.count += 1;
-             this.active = (this.count % this.data.items.length);
-             console.log("Previous: ", this.prev, "Active: ", this.active);
-         }, 2000);
+             this.handleSlide(this.count % this.data.items.length);
+         }, this.data.primary.speed ? this.data.primary.speed * 1000 : 5000);
      },
      handleSlide(i) {
          if (i === this.active || performance.now() < (this.timeSinceSlide + 1000)) return;
@@ -49,7 +48,7 @@ export default {
          if (i !== this.active) {
             this.prev = this.active;
             this.active = i;
-            console.log("Previous: ", this.prev, "Active: ", this.active, "Direction: ", this.dir);
+            // console.log("Previous: ", this.prev, "Active: ", this.active, "Direction: ", this.dir);
          }
          
      },
@@ -69,15 +68,15 @@ export default {
   },
   data() {
       return {
-        active: 1,
+        active: 0,
         count: 0,
         dir: `left`,
-        prev: 0,
+        prev: this.data.items.length - 1,
         timeSinceSlide: 0
       }
   },
   mounted() {
-    //   this.transitioning();
+      this.transitioning();
   }
 }
 </script>
@@ -156,49 +155,49 @@ p {
 
 .active {
     transform: translateX(0%);
-    transition: transform 1s ease;
+    transition: transform 1.5s ease;
 }
 
 //LEFT
 //when active slides left and leaves
 .active-left-leave-to {
     transform: translateX(-100%);
-    transition: transform 1s ease;
+    transition: transform 1.5s ease;
 }
 
 //when the new expected left comes in (left)
 .active-left-enter-active {
     transform: translateX(100%);
-    transition: transform 1s ease;
+    transition: transform 1.5s ease;
 }
 
 .active-left-enter-to {
     transform: translateX(0%);
-    transition: transform 1s ease;
+    transition: transform 1.5s ease;
 }
 
 //when the prev (former active) leaves, left 
 .prev-left-enter {
     transform: translateX(0%) !important;
-    transition: transform 1s ease;
+    transition: transform 1.5s ease;
 }
 .prev-left-enter-to {
     transform: translateX(-100%) ;
-    transition: transform 1s ease;
+    transition: transform 1.5s ease;
 }
 
 .prev-right-leave-to {
     transform: translateX(100%);
-    transition: transform 1s ease;
+    transition: transform 1.5s ease;
 }
 .active-right-enter-to {
     transform: translateX(0%);
-    transition: transform 1s ease;
+    transition: transform 1.5s ease;
 }
 
 .active-right-enter {
     transform: translateX(-100%);
-    transition: transform 1s ease;
+    transition: transform 1.5s ease;
 }
 
 
