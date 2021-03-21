@@ -1,9 +1,9 @@
 <template>
   <div class="homebanner">
       <div class="slider">    
-        <transition appear v-for="(item, i) in data.items" :key="i">
-            <div class="slide" :style="`transform: translateX(-${active * 100}vw)`">
-                <div class="banner" :style="`background-image: url(${item.image.url}); transform: translateX(${i * 100}vw)`">
+        <transition :name="`${handlePos(i)}-${dir}`" appear v-for="(item, i) in data.items" :key="i">
+            <div :class="`slide ${handlePos(i)}`" :key="`${handlePos(i)} ${dir}`">
+                <div class="banner" :style="`background-image: url(${item.image.url})`">
                     <div class="text">
                         <h1 v-if="item.title"><p v-if="item.pretitle">{{$text(item.pretitle)}}</p> {{$text(item.title)}}</h1>
                     </div>
@@ -11,12 +11,12 @@
                 </div>
             </div>
         </transition>
-        <div class="pagination">
+    </div>
+     <div class="pagination">
             <div v-for="(item, i) in data.items" :key="i">
-                <div :class="`dot ${active === i ? `active` : ``}`" @click="active = i"></div>
+                <div :class="`dot ${active === i ? `active` : ``}`" @click="handleSlide(i)"></div>
             </div>
         </div>
-    </div>
   </div>
 </template>
 
@@ -30,18 +30,60 @@ export default {
 
   },
   methods: {
-     
+     transitioning() {
+         setInterval(() => {
+            this.prev = this.count;
+             this.count += 1;
+             this.active = (this.count % this.data.items.length);
+             console.log("Previous: ", this.prev, "Active: ", this.active);
+         }, 2000);
+     },
+     handleSlide(i) {
+         if (i === this.active || performance.now() < (this.timeSinceSlide + 1000)) return;
+         this.timeSinceSlide = performance.now();
+         if (i > this.active) {
+             this.dir = `left`;
+         } else {
+             this.dir = `right`;
+         }
+         if (i !== this.active) {
+            this.prev = this.active;
+            this.active = i;
+            console.log("Previous: ", this.prev, "Active: ", this.active, "Direction: ", this.dir);
+         }
+         
+     },
+     handlePos(i) {
+         switch (i) {
+             case this.active: {
+                 return "active";
+             }
+             case this.prev: {
+                 return "prev";
+             }
+             default: {
+                 return ""
+             }
+         }
+     }
   },
   data() {
       return {
-        active: 0
+        active: 1,
+        count: 0,
+        dir: `left`,
+        prev: 0,
+        timeSinceSlide: 0
       }
+  },
+  mounted() {
+    //   this.transitioning();
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="scss">
 .overlay {
     background: rgb(17, 19, 53);
     background: linear-gradient(90deg, rgba(17, 19, 53,0.7469362745098039) 39%, rgba(17, 19, 53,0) 100%);
@@ -102,11 +144,63 @@ p {
   margin: 10px;
   cursor: pointer;
 }
-
-.slide {
-    transition: transform 1s ease;
-}
-.active {
+.pagination .active {
     background-color: lightblue;
 }
+
+//----------------------------------
+
+.slide:not(.active) {
+    transform: translateX(-100%);
+}
+
+.active {
+    transform: translateX(0%);
+    transition: transform 1s ease;
+}
+
+//LEFT
+//when active slides left and leaves
+.active-left-leave-to {
+    transform: translateX(-100%);
+    transition: transform 1s ease;
+}
+
+//when the new expected left comes in (left)
+.active-left-enter-active {
+    transform: translateX(100%);
+    transition: transform 1s ease;
+}
+
+.active-left-enter-to {
+    transform: translateX(0%);
+    transition: transform 1s ease;
+}
+
+//when the prev (former active) leaves, left 
+.prev-left-enter {
+    transform: translateX(0%) !important;
+    transition: transform 1s ease;
+}
+.prev-left-enter-to {
+    transform: translateX(-100%) ;
+    transition: transform 1s ease;
+}
+
+.prev-right-leave-to {
+    transform: translateX(100%);
+    transition: transform 1s ease;
+}
+.active-right-enter-to {
+    transform: translateX(0%);
+    transition: transform 1s ease;
+}
+
+.active-right-enter {
+    transform: translateX(-100%);
+    transition: transform 1s ease;
+}
+
+
+
 </style>
