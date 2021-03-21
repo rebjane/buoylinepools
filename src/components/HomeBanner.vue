@@ -38,7 +38,7 @@ export default {
          }, this.data.primary.speed ? this.data.primary.speed * 1000 : 5000);
      },
      handleSlide(i) {
-         if (i === this.active || performance.now() < (this.timeSinceSlide + 1000)) return;
+         if (i === this.active || performance.now() < (this.timeSinceSlide + 1500)) return;
          this.timeSinceSlide = performance.now();
          if (i > this.active) {
              this.dir = `left`;
