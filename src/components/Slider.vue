@@ -1,11 +1,16 @@
 <template>
   <div class="homebanner">
       <div class="slider">    
-        <transition :name="`${handlePos(i)}-${dir}`" appear v-for="(item, i) in data.items" :key="i">
+        <transition :name="doTransition ? `${handlePos(i)}-${dir}` : null" appear v-for="(item, i) in data.items" :key="i">
             <div :class="`slide ${handlePos(i)}`" :key="`${handlePos(i)} ${dir}`">
                 <div class="banner" :style="`background-image: url(${item.image.url})`">
                     <div class="text">
                         <h1 v-if="item.title"><p v-if="item.pretitle">{{$text(item.pretitle)}}</p> {{$text(item.title)}}</h1>
+                        <a :href="$text(item.link)" v-if="item.link_text.length && item.link">
+                            <p class="cta">
+                                {{$text(item.link_text)}}
+                            </p>
+                        </a>
                     </div>
                     <div class="overlay"/>
                 </div>
@@ -22,7 +27,7 @@
 
 <script>
 export default {
-  name: 'HomeBanner',
+  name: 'Slider',
   props: {
     data: Object
   },
@@ -38,7 +43,7 @@ export default {
          }, this.data.primary.speed ? this.data.primary.speed * 1000 : 5000);
      },
      handleSlide(i) {
-         if (i === this.active || performance.now() < (this.timeSinceSlide + 1500)) return;
+         if (!this.doTransition && i === this.active || performance.now() < (this.timeSinceSlide + 1000)) return;
          this.timeSinceSlide = performance.now();
          if (i > this.active) {
              this.dir = `left`;
@@ -72,11 +77,13 @@ export default {
         count: 0,
         dir: `left`,
         prev: this.data.items.length - 1,
-        timeSinceSlide: 0
+        timeSinceSlide: 0,
+        doTransition: false
       }
   },
   mounted() {
-      this.transitioning();
+    this.transitioning();
+    this.doTransition = true;
   }
 }
 </script>
@@ -85,16 +92,40 @@ export default {
 <style scoped lang="scss">
 .overlay {
     background: rgb(17, 19, 53);
-    background: linear-gradient(90deg, rgba(17, 19, 53,0.7469362745098039) 39%, rgba(17, 19, 53,0) 100%);
+    background: linear-gradient(180deg, rgba(23, 59, 100, 0.747) 10%, rgba(17, 19, 53,0) 100%);
     height: 100%;
     width:100%;
     position: absolute;
     z-index: 1;
 }
+a {
+    text-decoration: none;
+    color: #2270B1;
+}
+.cta {
+    
+    padding: 10px;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    font-weight: bold;
+    &:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: lightblue;
+        border-radius: 10px;
+        z-index: -1;
+    }
+}
 .banner {
     width: 100vw;
     height: 100vh;
     background-repeat: no-repeat;
+    background-position: center;
     background-size: cover;
     
 }
@@ -110,11 +141,12 @@ img {
 }
 .text {
     position: absolute;
-    bottom: 20%;
-    z-index: 5;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    z-index: 10;
     color: white;
-    margin-left: 30px;
-    text-align: left;
+    text-align: center;
     
 }
 h1 {
@@ -127,6 +159,7 @@ p {
 }
 .slide {
     position: absolute;
+    z-index: 0;
 }
 .pagination {
     position: absolute;
@@ -155,49 +188,48 @@ p {
 
 .active {
     transform: translateX(0%);
-    transition: transform 1.5s ease;
+    // transition: transform 1s ease;
 }
 
 //LEFT
 //when active slides left and leaves
 .active-left-leave-to {
     transform: translateX(-100%);
-    transition: transform 1.5s ease;
+    transition: transform 1s ease;
 }
 
 //when the new expected left comes in (left)
 .active-left-enter-active {
     transform: translateX(100%);
-    transition: transform 1.5s ease;
+    transition: transform 1s ease;
 }
 
 .active-left-enter-to {
     transform: translateX(0%);
-    transition: transform 1.5s ease;
+    transition: transform 1s ease;
 }
-
 //when the prev (former active) leaves, left 
 .prev-left-enter {
     transform: translateX(0%) !important;
-    transition: transform 1.5s ease;
+    transition: transform 1s ease;
 }
 .prev-left-enter-to {
     transform: translateX(-100%) ;
-    transition: transform 1.5s ease;
+    transition: transform 1s ease;
 }
 
 .prev-right-leave-to {
     transform: translateX(100%);
-    transition: transform 1.5s ease;
+    transition: transform 1s ease;
 }
 .active-right-enter-to {
     transform: translateX(0%);
-    transition: transform 1.5s ease;
+    transition: transform 1s ease;
 }
 
 .active-right-enter {
     transform: translateX(-100%);
-    transition: transform 1.5s ease;
+    transition: transform 1s ease;
 }
 
 

@@ -1,36 +1,43 @@
 <template>
   <div class="menubar">
-      <div class="main">
-        <a>
-            <img src="../assets/Buoyline_logo.png"/>
-        </a>
-    </div>
-    <div class="menuitems">
-        <ul>
-            <li v-for="(item, i) in menuitems" :key="i">
-                <a :href="item.link">{{item.title}}</a>
-            </li>
-        </ul>
-    </div>
+      
+        <div class="main">
+            <a>
+                <img src="../assets/Buoyline_logo.png"/>
+            </a>
+        </div>
+        <div class="desktopmenu" v-show="!res">
+            <div class="menuitems">
+                <ul>
+                    <li v-for="(item, i) in menuitems" :key="i">
+                        <a :href="item.link">{{item.title}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div v-show="res" class="mobilemenu">
+            <div class="mobilemenuitems">
+                <p>=</p>
+            </div>
+        </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Menubar',
+  props: {
+    res: Boolean
+  },
   data() {
       return {
           menuitems: [
               {
-                  link: "",
-                  title: "About"
+                  link: "#flyer",
+                  title: "Flyer"
               },
               {
-                  link: "",
-                  title: "Contact"
-              },
-              {
-                  link: "",
+                  link: "#services",
                   title: "Services"
               }
           ]
@@ -50,13 +57,15 @@ export default {
     height: 80px;
     text-align: left;
     padding: 0 30px;
+    -webkit-box-shadow: 0px 7px 18px 5px rgba(0,0,0,0.19); 
+    box-shadow: 0px 7px 18px 5px rgba(0,0,0,0.19);
 }
 
 .main {
     height: 60px;
     margin-top: 10px;
     margin-left: 20px;
-    display: inline-block;
+    float: left;
 }
 img {
     height: 100%;
@@ -78,5 +87,11 @@ a {
 .menuitems {
     float: right;
     top: 0
+}
+.mobilemenuitems {
+    top: 0;
+    float: right;
+    color: black;
+    top: 0;
 }
 </style>
