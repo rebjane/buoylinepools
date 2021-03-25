@@ -146,7 +146,7 @@ ul {
         display: none;
     }
     .text {
-        width: auto;
+        width: calc(100% - 60px);
     }
     .buoyline {
         width: 50%;
@@ -154,9 +154,10 @@ ul {
     .logo {
         margin: auto;
     }
-    .column:last-child {
+    .info {
         padding: 0;
-        padding-left: 20px;
+        padding-left: 10px;
+        width: calc(100% - 20px);
     }
 }
 .minicolumn {
