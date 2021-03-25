@@ -80,7 +80,7 @@ export default {
 .card {
     background: lightblue;
     display: inline-block;
-    margin: 10px;
+    margin: 10px auto;
     padding: 20px;
     width: 100px;
     border-radius: 20px;
@@ -97,18 +97,16 @@ export default {
         width: 100px;
         height: 100px;
     }
-    &:first-child {
-        margin-left: auto;
-    }
-    &:last-child {
-        margin-right: auto;
-    }
+    
 }
+
 
 
 .cards {
     display: flex;
     flex-wrap: wrap;
+    max-width: 1100px;
+    margin: auto;
 }
 
 .label {

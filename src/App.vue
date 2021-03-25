@@ -2,7 +2,7 @@
   <div id="app">
     <Menubar :res="ismobile"/>
     <div class="page">
-      <HomePage/>
+      <HomePage :res="ismobile"/>
     </div>
   </div>
 </template>
@@ -45,7 +45,11 @@ export default {
  
   
 }
+html {
+    scroll-behavior: smooth;
+}
 body {
+
   margin: 0;
   width: 100%;
   overflow-x: hidden;
@@ -54,7 +58,17 @@ h2 {
   font-size: 40px;
 }
 
+@media screen and (max-width: 1000px) {
+  h2 {
+    font-size: 30px;
+  }
+}
+
 @media screen and (max-width: 600px) {
+
+  h2 {
+    font-size: 25px;
+  }
   .imageandtext {
     .image, .text {
       width: 100%;
@@ -62,5 +76,6 @@ h2 {
     }
   }
 }
+
 
 </style>

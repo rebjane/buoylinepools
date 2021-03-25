@@ -232,6 +232,16 @@ p {
     transition: transform 1s ease;
 }
 
-
+@media screen and (max-width: 600px) {
+  h1 {
+    font-size: 30px;
+  }
+  p {
+      font-size: 20px;
+  }
+  .text {
+      width: 90%;
+  }
+}
 
 </style>

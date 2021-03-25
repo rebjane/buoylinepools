@@ -9,8 +9,8 @@
         <div class="desktopmenu" v-show="!res">
             <div class="menuitems">
                 <ul>
-                    <li v-for="(item, i) in menuitems" :key="i">
-                        <a :href="item.link">{{item.title}}</a>
+                    <li v-for="(item, i) in $menubar" :key="i">
+                        <a :href="$text(item.link)">{{$text(item.title)}}</a>
                     </li>
                 </ul>
             </div>
@@ -31,16 +31,6 @@ export default {
   },
   data() {
       return {
-          menuitems: [
-              {
-                  link: "#flyer",
-                  title: "Flyer"
-              },
-              {
-                  link: "#services",
-                  title: "Services"
-              }
-          ]
       }
   }
 }

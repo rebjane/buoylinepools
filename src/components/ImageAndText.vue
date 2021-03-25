@@ -1,25 +1,31 @@
 <template>
   <div class="imageandtext" :id="data.primary.id.length ? $text(data.primary.id) : null">
       <transition v-for="(item, i) in data.items"  :key="i">
-          <div class="section" v-if="data.items && !data.primary.direction">
+          <div class="section imageleft" v-if="data.items && !data.primary.direction">
             <div class="image">
+                <Wave :fill="`#2270B1`" class="wave top"/>
+                      <Wave :fill="`#2270B1`" class="wave bottom"/>
                     <img :src="item.image.url"/>
                 </div>
 
                 <div class="text" ref="text">
+                      <Wave :fill="`#2270B1`" class="wave top"/>
+                      <Wave :fill="`#2270B1`" class="wave bottom"/>
                     <h2>{{$text(item.title)}}</h2>
                     <p>{{$text(item.text)}}</p>
-                    <div class="cta" v-if="item.button_text.length && item.button_link.length">
-                        <a :href="$text(item.button_link)">{{$text(item.button_text)}}</a>
+                    <div class="cta" v-if="item.button_text.length && item.button_link.url">
+                        <a :href="item.button_link.url">{{$text(item.button_text)}}</a>
                     </div>
                 </div>
              </div>
-             <div class="section" v-else-if="data.items">
+             <div class="section imageright" v-else-if="data.items">
                 <div class="text" ref="text">
+                    <!-- <Wave :fill="`#2270B1`" class="wave top"/>
+                      <Wave :fill="`#2270B1`" class="wave bottom"/> -->
                     <h2>{{$text(item.title)}}</h2>
                     <p>{{$text(item.text)}}</p>
-                    <div class="cta" v-if="item.button_text.length && item.button_link.length">
-                        <a :href="$text(item.button_link)">{{$text(item.button_text)}}</a>
+                    <div class="cta" v-if="item.button_text.length && item.button_link.url">
+                        <a :href="item.button_link.url" :target="`${item.new_tab ? `_blank` : `_self`}`">{{$text(item.button_text)}}</a>
                     </div>
                 </div>
                  <div class="image">
@@ -31,10 +37,11 @@
 </template>
 
 <script>
-
+import Wave from "./Wave";
 export default {
   name: 'ImageAndText',
   components: {
+      Wave
   },
   data() {
       return {
@@ -62,6 +69,17 @@ export default {
 a {
     text-decoration: none;
     color: #2270B1;
+}
+.imageright {
+    h2, p {
+        margin-left: 100px;
+    }
+    .cta {
+        margin-left: 100px;
+    }
+    .image {
+       width: 45%; 
+    }
 }
 .cta {
     margin-top: 40px;
@@ -111,7 +129,6 @@ img {
 
 .text {
     width: 50%;
-    
     display: inline-block;
     vertical-align: middle;
     position: relative;
@@ -129,5 +146,51 @@ img {
     left: -50vw;
     padding: 40px 0;
     transform: translateY(-50%);
+}
+
+.top {
+    top: 0;
+    transform: translateY(-50%);
+}
+.bottom {
+    bottom: 0;
+    transform: translateY(50%);
+}
+
+.wave {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    @media screen and (min-width: 601px) {
+        left: -100%;
+    }
+}
+.imageright {
+    .wave {
+        position: absolute;
+        z-index: -1;
+        width: 100%;
+        @media screen and (min-width: 601px) {
+            left: 0;
+        }
+    }
+}
+
+.section {
+    @media screen and (max-width: 600px) {
+        &:after {
+            content: '';
+        background-color: #2270B1;
+        position: absolute;
+        height: 100%;
+        width: 200vw;
+        left: 0;
+        top: 50%;
+        z-index: -2;
+        left: -50vw;
+        padding: 40px 0;
+        transform: translateY(-50%);
+        }
+    }
 }
 </style>

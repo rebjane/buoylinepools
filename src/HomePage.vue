@@ -1,6 +1,6 @@
 <template>
   <div class="homepage">
-  <transition v-for="(item, i) in $homepage" :key="i" :is="item.slice_type" :data="item" class="section">
+  <transition :res="res" v-for="(item, i) in $homepage" :key="i" :is="item.slice_type" :data="item" class="section">
     </transition>
   </div>
 </template>
@@ -10,7 +10,7 @@ import slider from "./components/Slider";
 import services from "./components/Services";
 import imageandtext from "./components/ImageAndText";
 import imagecarousel from "./components/ImageCarousel";
-import locationmap from "./components/Map";
+import footersection from "./components/Footer";
 
 
 export default {
@@ -20,7 +20,7 @@ export default {
     services,
     imageandtext,
     imagecarousel,
-    locationmap
+    footersection
   },
   data() {
     return {
@@ -40,7 +40,7 @@ export default {
     }
   },
   props: {
-    msg: String
+    res: Boolean
   },
   mounted() {
     this.assignData();

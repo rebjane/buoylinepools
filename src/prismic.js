@@ -10,9 +10,10 @@ class Prismic {
             .then((api) => {
               return api.query("", { pageSize: 100 });
             }).then(data => {
-                // console.log(data.results);
-                Vue.prototype.$homepage = data.results.filter(i => i.type === "homepage")[0].data.body;
-                // console.log(Vue.prototype.$homepage);
+              Vue.prototype.$homepage = data.results.filter(i => i.type === "homepage")[0].data.body;
+              Vue.prototype.$menubar = data.results.filter(i => i.type === "menubar")[0].data.menubar;
+              
+                console.log(Vue.prototype.$menubar);
                 res();
             })
         })
@@ -24,3 +25,23 @@ Vue.prototype.$text = (text) => {
     return text[0].text;
 };
   
+
+Vue.prototype.$html = (text) => {
+  // console.log(text[0].type);
+
+  if (text[0].spans.length) {
+    switch (text[0].spans[0].type) {
+      case ("hyperlink"): {
+        return `<a href="${text[0].spans[0].data.url}">${Vue.prototype.$text(text)}</a>`;
+      }
+    }
+  }
+  
+  switch (text[0].type) {
+    case "paragraph": {
+      return `<p>${Vue.prototype.$text(text)}</p>`
+    }
+  }
+
+  return `<p>${Vue.prototype.$text(text)}</p>`;
+};

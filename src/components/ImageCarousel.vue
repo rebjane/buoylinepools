@@ -1,7 +1,7 @@
 <template>
   <div class="carousel">
       <h2 v-if="data.primary.title.length">{{$text(data.primary.title)}}</h2>
-      <div class="slider" :style="`transform: translateX(-${active * 50}%)`">    
+      <div class="slider" :style="`transform: translateX(-${active * (!res ? 50 : 75)}%)`">    
         <transition appear v-for="(item, i) in data.items" :key="i">
             <div class="slide">
                 <div class="banner" :style="`background-image: url(${item.image.url}); transform: translateX(${i * 100}%)`">
@@ -21,7 +21,8 @@
 export default {
   name: 'ImageCarousel',
   props: {
-    data: Object
+    data: Object,
+    res: Boolean
   },
   watch: {
 
@@ -56,10 +57,11 @@ export default {
     background-size: cover;
     
 }
+
 .carousel {
     width: 100vw;
     height: 100%;
-    padding: 20px 0;
+    padding: 100px 0;
     position: relative;
 }
 .text {
@@ -99,8 +101,7 @@ p {
   cursor: pointer;
 }
 
-.slide {
-    
+.slide { 
     width: 50%;
     left: 25%;
 }
@@ -111,5 +112,14 @@ p {
 .slider {
     height: 400px;
     transition: transform 1s ease;
+}
+@media screen and (max-width: 600px) {
+    .banner {
+        height: 300px;
+    }
+    .slide {
+        width: 75%;
+        left: 13.5%;
+    }
 }
 </style>
