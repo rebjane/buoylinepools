@@ -7,18 +7,25 @@
         <div class="main">
                 <div class="servicecards">
                     <div class="cards">
-                        <div v-for="(item, i) in data.items" class="card" @mouseleave="info = null" @mouseover="displayText($text(item.displaytext))" :key="i">
+                        <div v-for="(item, i) in data.items" class="card" @mouseleave="info = null" @mouseover="displayText($event, i, $text(item.displaytext))" @mousedown="displayText($event, i, $text(item.displaytext))" :key="i">
                             <img :src="item.image.url"/>
                             <div class="label">
                                 <h4> {{$text(item.label)}}</h4>
+                                <div class="mobile">
+                                    <transition appear name="info" v-if="res && i === active">
+                                        <div :key="info" :class="`info ${info ? `show` : ''}`" ref="info">
+                                            <p v-show="info">{{info}}</p>
+                                        </div>
+                                    </transition>
+                                </div>
                             </div>
                         </div>
                     </div> 
                 </div>
-                <transition appear name="info">
-                    <div :key="info" :class="`info ${info ? `show` : ''}`" ref="info">
-                        <p v-show="info">{{info}}</p>
-                    </div>
+                <transition appear name="info" v-if="!res">
+                        <div :key="info" :class="`info ${info ? `show` : ''}`" ref="info">
+                            <p v-show="info">{{info}}</p>
+                        </div>
                 </transition>
 
           </div>
@@ -41,17 +48,21 @@ export default {
     Wave,
   },
    props: {
-    data: Object
+    data: Object,
+    res: Boolean
   },
   data() {
       return {
           info: null,
+          active: null
       }
   },
   methods: {
-      displayText(text) {
+      displayText(e, i, text) {
         //   if (this.info) return;
+        if (this.res && e.type === "mouseover") return;
           this.info = text;
+          this.active = i;
       }
   },
   mounted() {
@@ -68,6 +79,7 @@ export default {
     width: 100%;
     margin-bottom: 100px;
 }
+
 .main {
     width: 100%;
      z-index: 2;
@@ -89,9 +101,11 @@ export default {
     -webkit-box-shadow: 0px 7px 18px 5px rgba(0,0,0,0.19); 
     box-shadow: 0px 7px 18px 5px rgba(0,0,0,0.19);
     cursor: pointer;
-    &:hover {
-        transform: scale(1.1);
-        transition: transform .5s ease;
+    @media screen and (min-width: 601px) {
+        &:hover {
+            transform: scale(1.1);
+            transition: transform .5s ease;
+        }
     }
     img {
         width: 100px;
@@ -100,7 +114,20 @@ export default {
     
 }
 
-
+@media screen and (max-width: 600px) {
+    .card {
+        width: calc(100% - 80px);
+        img {
+            width: 60px;
+            height: 60px;
+        }
+    }
+    // img, .label {
+    //     display: inline-block;
+    //     vertical-align: middle;
+    // }
+   
+}
 
 .cards {
     display: flex;
@@ -157,25 +184,26 @@ h2 {
 }
 
 
-
-.info {
-    
-    height: 0px;
-    transition: opacity .5s ease;
-    p {
-        position: absolute;
-        font-size: 20px;
-        // height: 0;
-        border-radius: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 20px;
-        background: lightblue;
-        width: 40%;
-        transition: opacity 1s ease;
+@media screen and (min-width: 601px) {
+    .info {
         
+        height: 0px;
+        transition: opacity .5s ease;
+        p {
+            position: absolute;
+            font-size: 20px;
+            // height: 0;
+            border-radius: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 20px;
+            background: lightblue;
+            width: 40%;
+            transition: opacity 1s ease;
+        }
     }
 }
+
 .info-enter p, .info-leave-to p{
     opacity: 0;
     transition: opacity 1s ease;
@@ -183,6 +211,15 @@ h2 {
 .info-enter-to p {
     opacity: 1;
     transition: opacity 1s ease;
+}
+.mobile {
+    .info {
+        transition: opacity .5s ease;
+        p {
+            transition: opacity 1s ease;
+        }
+    }
+    z-index: 10;
 }
 
 </style>

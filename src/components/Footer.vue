@@ -11,7 +11,7 @@
                 <img class="buoyline" src="../assets/Buoyline_logo.png"/>
             </a>
         </li>
-        <span v-if="res">
+        <span class="desktop">
             <transition v-for="(item, j) in data.primary.columns" :key="j">
                 <div class="minicolumn">
                     <transition v-for="(item, i) in Math.floor(data.items.length / data.primary.columns)" :key="i">
@@ -24,7 +24,7 @@
                 </div>
             </transition>
         </span>
-        <span v-else>
+        <span  class="mobile">
              <div class="mobilecolumn">
                     <transition v-for="(item, i) in data.items" :key="i">
                         <li class="footeritem">
@@ -36,6 +36,9 @@
         </span>
 
     </ul>
+    <div class="copyright">
+        <p>Copyright {{year}} Buoyline Pools and All Services Limited. Designed and developed by <a target="_blank" href="http://www.rebj.design">The Reb</a></p>
+        </div>
   </div>
 </template>
 <script>
@@ -45,7 +48,7 @@ export default {
   name: 'Slider',
   props: {
     data: Object,
-    res: Boolean
+    res: Boolean,
   },
   components: {
     // Wave
@@ -58,10 +61,11 @@ export default {
   },
   data() {
       return {
-
+            year: null
       }
   },
   mounted() {
+      this.year = new Date().toString().split(" ")[3];
   }
 }
 </script>
@@ -84,13 +88,15 @@ ul {
     vertical-align: middle;
     margin-left: 20px;
     font-weight: 300;
-    width: 60%;
+    width: calc(100% - 60px);
     word-wrap: break-word;
 }
 #footer {
     text-align: left;
-    padding: 40px 0;
-    background: lightblue;
+    padding: 40px 0 0;
+    // background: lightblue;
+    -webkit-box-shadow: 0px 7px 18px 5px rgba(0,0,0,0.19); 
+    box-shadow: 0px 7px 18px 5px rgba(0,0,0,0.19);
     position: relative;
 }
 
@@ -98,7 +104,7 @@ ul {
     width: 100%;
     height: 300px;
 }
-@media screen and (max-width: 601px) {
+@media screen and (max-width: 1001px) {
     .column {
         width: 100%;
     }
@@ -121,17 +127,27 @@ ul {
 .buoyline {
     width: 35%;
 }
-@media screen and (min-width: 601px) {
+@media screen and (min-width: 1001px) {
+    .mobile {
+        display: none;
+    }
     .column {
-    display: inline-block;
-    width: 45%;
-    vertical-align: middle;
-    &:last-child {
-        padding-left: 5%;
+        margin-bottom: 20px;
+        display: inline-block;
+        width: 45%;
+        vertical-align: middle;
+        &:last-child {
+            padding-left: 5%;
+        }
     }
 }
-}
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1000px) {
+    .desktop {
+        display: none;
+    }
+    .text {
+        width: auto;
+    }
     .buoyline {
         width: 50%;
     }
@@ -147,5 +163,11 @@ ul {
     display: inline-block;
     width: calc(50% - 20px);
     margin: 0 10px;
+}
+.copyright {
+    font-size: 12px;
+    text-align: center;
+    padding: 10px 0px;
+    background: lightblue;
 }
 </style>

@@ -11,7 +11,7 @@
     </div>
     <div class="pagination">
         <div class="dot-outer" v-for="(item, i) in data.items" :key="i">
-            <div :class="`dot ${active === i ? `active` : ``}`" @click="active = i"></div>
+            <div :class="`dot ${active === i ? `active` : ``}`" @click="handlePos(i)"></div>
         </div>
     </div>
   </div>
@@ -33,6 +33,10 @@ export default {
              this.count += 1;
              this.active = (this.count % (this.data.items.length));
          }, 5000);
+     },
+     handlePos(i) {
+         this.active = i;
+         this.count = i;
      }
   },
   data() {
@@ -114,7 +118,11 @@ p {
     transition: transform 1s ease;
 }
 @media screen and (max-width: 600px) {
-    .banner {
+     .dot {
+        width: 30px;
+        height: 30px;
+    }
+    .banner, .slider {
         height: 300px;
     }
     .slide {

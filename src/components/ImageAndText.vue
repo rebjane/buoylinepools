@@ -1,5 +1,5 @@
 <template>
-  <div class="imageandtext" :id="data.primary.id.length ? $text(data.primary.id) : null">
+  <div class="imageandtext" :style="data.primary.direction ? `background: #2270B1;` : ``" :id="data.primary.id.length ? $text(data.primary.id) : null">
       <transition v-for="(item, i) in data.items"  :key="i">
           <div class="section imageleft" v-if="data.items && !data.primary.direction">
             <div class="image">
@@ -82,6 +82,7 @@ a {
     }
 }
 .cta {
+    z-index: 3;
     margin-top: 40px;
     padding: 10px;
     display: inline-block;
@@ -166,12 +167,28 @@ img {
     }
 }
 .imageright {
-    .wave {
-        position: absolute;
-        z-index: -1;
-        width: 100%;
-        @media screen and (min-width: 601px) {
-            left: 0;
+    @media screen and (max-width: 600px) {
+        display: flex;
+        flex-direction: column-reverse;
+        .image {
+            width: 100%;
+            margin-bottom: 40px;
+        }
+        .cta {
+            margin-left: 0;
+            margin-right: 0;
+
+        }
+        h2, p {
+            margin: 0 5%;
+        }
+        .wave {
+            position: absolute;
+            z-index: -1;
+            width: 100%;
+            // @media screen and (min-width: 601px) {
+            //     left: 0;
+            // }
         }
     }
 }

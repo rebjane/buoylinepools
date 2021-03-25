@@ -22,7 +22,13 @@ class Prismic {
 export const prismic = new Prismic();
   
 Vue.prototype.$text = (text) => {
-    return text[0].text;
+  var returnText = '';
+  for (let i = 0; i < text.length; i++) {
+    returnText += text[i].text;
+    // returnText += `&#13;&#10`;
+
+  }
+    return returnText;
 };
   
 

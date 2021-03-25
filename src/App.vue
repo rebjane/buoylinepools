@@ -42,16 +42,19 @@ export default {
   color: #2c3e50;
   /* background: lightblue; */
   height: 200vh;
- 
+ overflow-y: visible;
   
 }
-html {
-    scroll-behavior: smooth;
-}
 body {
-
   margin: 0;
-  width: 100%;
+}
+html {
+  overscroll-behavior: none;
+  scroll-behavior: smooth;
+
+}
+.page {
+  width: 100vw;
   overflow-x: hidden;
 }
 h2 {
@@ -76,6 +79,8 @@ h2 {
     }
   }
 }
-
+p {
+  line-height: 1.5;
+}
 
 </style>

@@ -37,6 +37,7 @@ export default {
 }
 .wave {
     position: relative;
+    pointer-events: none;
 }
 svg {
   width: 100vw;

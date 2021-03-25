@@ -18,7 +18,7 @@
         </transition>
     </div>
      <div class="pagination">
-            <div v-for="(item, i) in data.items" :key="i">
+            <div class="dot-outer" v-for="(item, i) in data.items" :key="i">
                 <div :class="`dot ${active === i ? `active` : ``}`" @click="handleSlide(i)"></div>
             </div>
         </div>
@@ -163,11 +163,28 @@ p {
 }
 .pagination {
     position: absolute;
-    right: 20px;
     z-index: 10;
-    top: 50%;
-    transform: translateY(-50%);
 }
+@media screen and (min-width: 601px) {
+    .pagination {
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        
+    }
+}
+@media screen and (max-width: 600px) {
+    .pagination {
+        bottom: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+    }
+    .dot-outer {
+        display: inline-block;
+    }
+}
+
 .dot {
   height: 20px;
   width: 20px;
@@ -233,6 +250,10 @@ p {
 }
 
 @media screen and (max-width: 600px) {
+    .dot {
+        width: 30px;
+        height: 30px;
+    }
   h1 {
     font-size: 30px;
   }
