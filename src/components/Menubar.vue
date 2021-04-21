@@ -3,13 +3,13 @@
       
         <div class="main">
             <a>
-                <img src="../assets/Buoyline_logo.png"/>
+                <img :src="this.$menubar.logo.url" v-if="this.$menubar.logo.url"/>
             </a>
         </div>
         <div class="desktopmenu">
             <div class="menuitems">
                 <ul>
-                    <li v-for="(item, i) in $menubar" :key="i">
+                    <li v-for="(item, i) in $menubar.menubar" :key="i">
                         <a :href="$text(item.link)">{{$text(item.title)}}</a>
                     </li>
                 </ul>
@@ -21,7 +21,7 @@
             </div>
             <div class="mobiledropdown" v-if="navOpen">
                 <ul class="dropdown">
-                    <li v-for="(item, i) in $menubar" :key="i">
+                    <li v-for="(item, i) in $menubar.menubar" :key="i">
                         <a :href="$text(item.link)" @click="handleMobileNav">{{$text(item.title)}}</a>
                     </li>
                 </ul>
@@ -45,6 +45,9 @@ export default {
       handleMobileNav() {
           this.navOpen = !this.navOpen;
       }
+  },
+  mounted() {
+    //   console.log(this.$menubar.logo.url);
   }
 }
 </script>
