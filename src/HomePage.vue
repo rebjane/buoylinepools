@@ -11,6 +11,7 @@ import services from "./components/Services";
 import imageandtext from "./components/ImageAndText";
 import imagecarousel from "./components/ImageCarousel";
 import footersection from "./components/Footer";
+import imagefull from "./components/ImageFull";
 
 
 export default {
@@ -20,7 +21,8 @@ export default {
     services,
     imageandtext,
     imagecarousel,
-    footersection
+    footersection,
+    imagefull
   },
   data() {
     return {

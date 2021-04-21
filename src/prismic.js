@@ -13,7 +13,7 @@ class Prismic {
               Vue.prototype.$homepage = data.results.filter(i => i.type === "homepage")[0].data.body;
               Vue.prototype.$menubar = data.results.filter(i => i.type === "menubar")[0].data.menubar;
               
-                console.log(Vue.prototype.$menubar);
+                // console.log(Vue.prototype.$menubar);
                 res();
             })
         })
